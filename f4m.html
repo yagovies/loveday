@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para mi novia hermosa &lt;3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fuente Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #ffb6d5, #ffffff); /* rosa a blanco */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      padding: 32px 22px;
+      text-align: center;
+      width: 90vw;
+      max-width: 380px;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 0 40px rgba(0,0,0,0.25);
+      animation: fadeIn 1.5s ease;
+    }
+
+    h1 {
+      font-size: clamp(1.6em, 6vw, 2em);
+      margin-bottom: 15px;
+      color: #000;
+      font-weight: 800;
+    }
+
+    p {
+      overflow-wrap: break-word;
+      white-space: normal;
+      font-size: clamp(1em, 4.5vw, 1.1em);
+      margin-bottom: 25px;
+      line-height: 1.6;
+      color: #000;
+      font-weight: 700;
+    }
+
+    button {
+      background: #ff2f76;
+      border: none;
+      padding: 16px 28px;
+      border-radius: 30px;
+      color: #000;
+      font-size: 1.05em;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #ff4f8f;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 20px;
+      animation: float 8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh) scale(0.6); opacity: 0; }
+      to   { transform: translateY(-10vh) scale(1.2); opacity: 1; }
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+    .final {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ff9ecf, #ffffff);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .final h2 {
+      font-size: clamp(2.2em, 9vw, 5em);
+      color: #fff; /* blanco solo para el final */
+      text-align: center;
+      padding: 20px;
+      font-weight: 900;
+      animation: latido 1.2s infinite alternate;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.6); /* sombra solo para el final */
+    }
+
+    @keyframes latido { from { transform: scale(1); } to { transform: scale(1.08); } }
+
+    #finalImg {
+      animation: latido 1.2s infinite alternate; /* mismo pulso que el texto */
+    }
+
+    /* Bounce hacia adelante */
+    @keyframes bounceForward {
+      0%   { transform: translateZ(0) scale(1); }
+      30%  { transform: translateZ(30px) scale(1.08); }
+      60%  { transform: translateZ(0) scale(0.96); }
+      100% { transform: translateZ(0) scale(1); }
+    }
+
+    .bounce { animation: bounceForward 0.35s ease; }
+
+    /* pequeño ajuste para que texto en botón sea legible en móviles */
+    @media (max-width: 420px) {
+      button { padding: 14px 20px; font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Te amo por...</h1>
+    <img id="imagen" src="https://i.pinimg.com/originals/62/e1/f8/62e1f8c57243ec79960f13a59bac25df.gif" alt="Imagen romantica" style="width:140px; max-width:80%; margin-bottom:18px; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.25);">
+    <p id="mensaje">Dale clicksaso para ver las razones por las que te amo❤️‍🩹</p>
+    <button id="btn" onclick="cambiarMensaje()">toca aquiii</button>
+  </div>
+
+  <div class="final" id="final" style="flex-direction:column; gap:18px;">
+    <h2>FELIZ 4 MESES MI NIÑITA LINDAAAAAA, ERES LO QUE MAS AMO EN EL MUNDO❤️‍🩹</h2>
+    <img id="finalImg" src="https://media.tenor.com/8dzBZD1j7G8AAAAj/hello-kitty-daniel.gif" alt="Imagen final" style="width:180px; max-width:80vw; border-radius:18px; box-shadow:0 8px 22px rgba(0,0,0,0.35);">
+  </div>
+
+  <!-- IFrame de música de YouTube (oculto). Se usará para activar autoplay cambiando el src -->
+  <iframe id="musicaYT" width="0" height="0" src="https://www.youtube.com/embed/BEMaH9Sm3lQ?autoplay=0&loop=1&playlist=BEMaH9Sm3lQ" title="Musica romantica" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none"></iframe>
+
+  <script>
+    const mensajes = [
+      { texto: "ser la niñita tan dulce de siempre (te comportas como una niña pequeña conmigo, eres tan tierna y lindaaaaa)😭❤️‍🩹.", img: "https://i.pinimg.com/originals/00/e5/65/00e565bae9bc8db29930f2058cbb6bd3.gif" },
+      { texto: "siempre demostrarme tu amor y cariño sin importar el lugar o con quien estemos❤️‍🩹.", img: "https://media.tenor.com/8dzBZD1j7G8AAAAj/hello-kitty-daniel.gif" },
+      { texto: "tu personalidad y tu manera de ser (tu manera de pensar y de ver las cosas me hace sentir seguro a tu lado)❤️‍🩹", img: "https://media1.tenor.com/m/wF1CraEXJXgAAAAC/hello-kitty-dance.gif" },
+      { texto: "lo mucho que te esfuerzas por nuestra relación❤️‍🩹 (asi te esfuerzas al no enojarte conmigo amor JKSAJKSAKJA)", img: "https://media.tenor.com/cZplm9ukCgkAAAAj/hello-kitty-gym-workout.gif" },
+      { texto: "acompañarme y cuidarme siempre, apoyarme y consolarme en caso me sienta mal (siempre estas para mi, y eso me encanta)❤️‍🩹", img: "https://i.pinimg.com/originals/22/d8/a4/22d8a49f58cd4e9439929020cbf6844d.gif" },
+      { texto: "lo feliz que me haces a diario (cada mensajito, llamada o cualquier cosa, me hace feliz porque sé que es contigo) ❤️‍🩹", img: "https://media.tenor.com/VuZw4Un2m5QAAAAj/pink-hello-kitty.gif" },
+      { texto: "siempre ser tan divertida y reirte de las mismas tonterias que yo JASKJASJKSA❤️‍🩹", img: "https://media1.tenor.com/m/P-uQaRacmcsAAAAC/dance.gif" },
+      { texto: "TODOOOOO 💘", img: "https://gifdb.com/images/high/hello-kitty-dear-daniel-b2v71f3e0p65idgh.gif" }
+    ];
+
+    let indice = 0;
+    let listoParaFinal = false;
+
+    function cambiarMensaje() {
+      const texto = document.getElementById("mensaje");
+      const boton = document.getElementById("btn");
+
+      // Si ya está listo para mostrar el final, ahora sí lo muestra al tocar
+      if (listoParaFinal) {
+        document.getElementById("final").style.display = "flex";
+        const yt = document.getElementById("musicaYT");
+        if (yt) {
+          yt.style.display = "block";
+          yt.src = yt.src.replace("autoplay=0","autoplay=1");
+        }
+        listoParaFinal = false; // evita que se repita
+        return;
+      }
+
+      // Animación bounce al tocar
+      boton.classList.remove("bounce");
+      void boton.offsetWidth;
+      boton.classList.add("bounce");
+
+      // Mostrar mensaje e imagen
+      texto.innerText = mensajes[indice].texto;
+      document.getElementById("imagen").src = mensajes[indice].img;
+
+      // Si es el último mensaje, solo cambia el botón
+      if (indice === mensajes.length - 1) {
+        boton.innerText = "besitoooos ❤️‍🩹";
+        listoParaFinal = true; // espera el siguiente toque
+      } else {
+        boton.innerText = "toca aquiii";
+      }
+
+      indice++;
+      if (indice >= mensajes.length) indice = 0;
+    }
+
+    function crearCorazon() {
+      const corazon = document.createElement("div");
+      corazon.classList.add("heart");
+      corazon.innerHTML = "❤";
+      corazon.style.left = Math.random() * 100 + "vw";
+      corazon.style.fontSize = Math.random() * 20 + 15 + "px";
+      corazon.style.animationDuration = Math.random() * 5 + 5 + "s";
+      document.body.appendChild(corazon);
+
+      setTimeout(() => corazon.remove(), 9000);
+    }
+
+    // En celular se generan menos corazones para que no se lagee
+    if (window.innerWidth < 600) {
+      setInterval(crearCorazon, 800);
+    } else {
+      setInterval(crearCorazon, 400);
+    }
+  </script>
+
+</body>
+</html>
