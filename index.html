@@ -146,8 +146,8 @@
     <img id="finalImg" src="https://media.tenor.com/8dzBZD1j7G8AAAAj/hello-kitty-daniel.gif" alt="Imagen final" style="width:180px; max-width:80vw; border-radius:18px; box-shadow:0 8px 22px rgba(0,0,0,0.35);">
   </div>
 
-  <!-- IFrame de música de YouTube (oculto). Se usará para activar autoplay cambiando el src -->
-  <iframe id="musicaYT" width="0" height="0" src="https://www.youtube.com/embed/BEMaH9Sm3lQ?autoplay=0&loop=1&playlist=BEMaH9Sm3lQ" title="Musica romantica" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none"></iframe>
+  <!-- 🔊 Sonido del botón -->
+  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
 
   <script>
     const mensajes = [
@@ -165,18 +165,17 @@
     let listoParaFinal = false;
 
     function cambiarMensaje() {
+      const sonido = document.getElementById("clickSound");
+      if (sonido) {
+        sonido.currentTime = 0;
+        sonido.play();
+      }
       const texto = document.getElementById("mensaje");
       const boton = document.getElementById("btn");
 
       // Si ya está listo para mostrar el final, ahora sí lo muestra al tocar
       if (listoParaFinal) {
-        document.getElementById("final").style.display = "flex";
-        const yt = document.getElementById("musicaYT");
-        if (yt) {
-          yt.style.display = "block";
-          yt.src = yt.src.replace("autoplay=0","autoplay=1");
-        }
-        listoParaFinal = false; // evita que se repita
+        document.getElementById("final").style.display = "flex";listoParaFinal = false; // evita que se repita
         return;
       }
 
